@@ -3,6 +3,16 @@ const path = require('path');
 const app = express();
 const PORT = 3000;
 
+// 访问日志中间件
+app.use((req, res, next) => {
+  const timestamp = new Date().toLocaleString('zh-CN');
+  const ip = req.ip || req.connection.remoteAddress;
+  const method = req.method;
+  const url = req.originalUrl;
+  console.log(`[${timestamp}] ${ip} - ${method} ${url} - 有人进入网站`);
+  next();
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
