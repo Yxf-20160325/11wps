@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WPS Office - 在线办公</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-left">
+                <div class="wps-logo">WPS Office</div>
+                <div class="menu-bar">
+                    <button class="menu-btn" data-menu="file">文件</button>
+                    <button class="menu-btn" data-menu="edit">编辑</button>
+                    <button class="menu-btn" data-menu="view">视图</button>
+                    <button class="menu-btn" data-menu="insert">插入</button>
+                    <button class="menu-btn" data-menu="format">格式</button>
+                    <button class="menu-btn" data-menu="tools">工具</button>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="header-btn" id="saveBtn">💾 保存</button>
+                <button class="header-btn" id="undoBtn">↩️ 撤销</button>
+                <button class="header-btn" id="redoBtn">↪️ 重做</button>
+            </div>
+        </header>
+
+        <div class="tab-bar">
+            <div class="tabs">
+                <div class="tab active" data-module="writer">
+                    <span class="tab-icon">📄</span>
+                    <span class="tab-title">文字文档</span>
+                    <button class="tab-close">×</button>
+                </div>
+                <div class="tab" data-module="spreadsheet">
+                    <span class="tab-icon">📊</span>
+                    <span class="tab-title">表格</span>
+                    <button class="tab-close">×</button>
+                </div>
+                <div class="tab" data-module="presentation">
+                    <span class="tab-icon">📽️</span>
+                    <span class="tab-title">演示文稿</span>
+                    <button class="tab-close">×</button>
+                </div>
+            </div>
+            <div class="tab-actions">
+                <button class="new-tab-btn">+ 新建</button>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <div class="toolbar-group">
+                <select id="fontFamily">
+                    <option value="SimSun">宋体</option>
+                    <option value="SimHei">黑体</option>
+                    <option value="Microsoft YaHei">微软雅黑</option>
+                    <option value="Arial">Arial</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                </select>
+                <select id="fontSize">
+                    <option value="1">8</option>
+                    <option value="2">10</option>
+                    <option value="3">12</option>
+                    <option value="4">14</option>
+                    <option value="5">18</option>
+                    <option value="6">24</option>
+                    <option value="7">36</option>
+                </select>
+            </div>
+            <div class="toolbar-divider"></div>
+            <div class="toolbar-group">
+                <button class="tool-btn" id="boldBtn" title="粗体"><b>B</b></button>
+                <button class="tool-btn" id="italicBtn" title="斜体"><i>I</i></button>
+                <button class="tool-btn" id="underlineBtn" title="下划线"><u>U</u></button>
+                <button class="tool-btn" id="strikeBtn" title="删除线"><s>S</s></button>
+            </div>
+            <div class="toolbar-divider"></div>
+            <div class="toolbar-group">
+                <button class="tool-btn" id="alignLeft" title="左对齐">⬅️</button>
+                <button class="tool-btn" id="alignCenter" title="居中">⬌</button>
+                <button class="tool-btn" id="alignRight" title="右对齐">➡️</button>
+                <button class="tool-btn" id="alignJustify" title="两端对齐">📋</button>
+            </div>
+            <div class="toolbar-divider"></div>
+            <div class="toolbar-group">
+                <button class="tool-btn" id="bulletList" title="无序列表">•</button>
+                <button class="tool-btn" id="numberList" title="有序列表">1.</button>
+            </div>
+            <div class="toolbar-divider"></div>
+            <div class="toolbar-group">
+                <label class="color-label">
+                    <span>字色</span>
+                    <input type="color" id="fontColor" value="#000000">
+                </label>
+                <label class="color-label">
+                    <span>背景</span>
+                    <input type="color" id="bgColor" value="#ffffff">
+                </label>
+            </div>
+        </div>
+
+        <div class="workspace">
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <h3>新建</h3>
+                    <div class="file-type-grid">
+                        <div class="file-type-card" data-type="writer">
+                            <div class="file-icon">📄</div>
+                            <div class="file-name">文字文档</div>
+                        </div>
+                        <div class="file-type-card" data-type="spreadsheet">
+                            <div class="file-icon">📊</div>
+                            <div class="file-name">表格</div>
+                        </div>
+                        <div class="file-type-card" data-type="presentation">
+                            <div class="file-icon">📽️</div>
+                            <div class="file-name">演示文稿</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sidebar-section">
+                    <h3>最近文档</h3>
+                    <div class="recent-files" id="recentFiles">
+                        <div class="empty-state">暂无最近文档</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="module-content" id="writerModule">
+                    <div class="document-container">
+                        <div class="document-page">
+                            <div class="document-header">
+                                <input type="text" class="doc-title" id="docTitle" placeholder="请输入文档标题">
+                            </div>
+                            <div class="document-body" id="docBody" contenteditable="true">
+                                <p>开始输入文字...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module-content hidden" id="spreadsheetModule">
+                    <div class="spreadsheet-container">
+                        <div class="spreadsheet-toolbar">
+                            <button class="ss-btn" id="addRow">+ 行</button>
+                            <button class="ss-btn" id="addCol">+ 列</button>
+                            <button class="ss-btn" id="deleteRow">- 行</button>
+                            <button class="ss-btn" id="deleteCol">- 列</button>
+                        </div>
+                        <div class="spreadsheet-wrapper">
+                            <table id="spreadsheetTable">
+                                <thead>
+                                    <tr>
+                                        <th class="corner-cell"></th>
+                                        <th>A</th>
+                                        <th>B</th>
+                                        <th>C</th>
+                                        <th>D</th>
+                                        <th>E</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="spreadsheetBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module-content hidden" id="presentationModule">
+                    <div class="presentation-container">
+                        <div class="slides-sidebar">
+                            <div class="slides-header">
+                                <span>幻灯片</span>
+                                <button class="slide-add-btn" id="addSlide">+</button>
+                            </div>
+                            <div class="slides-list" id="slidesList">
+                            </div>
+                        </div>
+                        <div class="slide-editor">
+                            <div class="slide-canvas" id="slideCanvas">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dropdown-menu" id="fileMenu">
+        <div class="dropdown-item" data-action="new">新建</div>
+        <div class="dropdown-item" data-action="open">打开...</div>
+        <div class="dropdown-item" data-action="save">保存</div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-submenu">
+            <span class="dropdown-item">导出 ▶</span>
+            <div class="dropdown-submenu-content">
+                <div class="dropdown-item" data-action="export-html">HTML</div>
+                <div class="dropdown-item" data-action="export-pdf">PDF</div>
+                <div class="dropdown-item" data-action="export-doc">DOC</div>
+                <div class="dropdown-item" data-action="export-txt">TXT</div>
+            </div>
+        </div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item" data-action="print">打印</div>
+    </div>
+
+    <div class="dropdown-menu" id="editMenu">
+        <div class="dropdown-item" data-action="undo">撤销</div>
+        <div class="dropdown-item" data-action="redo">重做</div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item" data-action="cut">剪切</div>
+        <div class="dropdown-item" data-action="copy">复制</div>
+        <div class="dropdown-item" data-action="paste">粘贴</div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item" data-action="selectAll">全选</div>
+        <div class="dropdown-item" data-action="clear">清除</div>
+    </div>
+
+    <div class="dropdown-menu" id="viewMenu">
+        <div class="dropdown-item" data-action="zoomIn">放大 (+)</div>
+        <div class="dropdown-item" data-action="zoomOut">缩小 (-)</div>
+        <div class="dropdown-item" data-action="zoomReset">重置缩放</div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item" data-action="fullscreen">全屏模式</div>
+    </div>
+
+    <div class="dropdown-menu" id="insertMenu">
+        <div class="dropdown-item" data-action="insertImage">插入图片</div>
+        <div class="dropdown-item" data-action="insertLink">插入链接</div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item" data-action="insertTable">插入表格</div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item" data-action="insertHR">插入水平线</div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item" data-action="insertDate">插入日期</div>
+        <div class="dropdown-item" data-action="insertTime">插入时间</div>
+    </div>
+
+    <div class="dropdown-menu" id="formatMenu">
+        <div class="dropdown-item" data-action="bold">粗体</div>
+        <div class="dropdown-item" data-action="italic">斜体</div>
+        <div class="dropdown-item" data-action="underline">下划线</div>
+        <div class="dropdown-item" data-action="strike">删除线</div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item" data-action="superscript">上标</div>
+        <div class="dropdown-item" data-action="subscript">下标</div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item" data-action="increaseIndent">增加缩进</div>
+        <div class="dropdown-item" data-action="decreaseIndent">减少缩进</div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item" data-action="removeFormat">清除格式</div>
+    </div>
+
+    <div class="dropdown-menu" id="toolsMenu">
+        <div class="dropdown-item" data-action="wordCount">字数统计</div>
+        <div class="dropdown-divider"></div>
+        <div class="dropdown-item" data-action="findReplace">查找替换</div>
+    </div>
+
+    <input type="file" id="fileInput" class="hidden-input" accept=".html,.csv,.txt,.doc,.docx">
+    <input type="file" id="imageInput" class="hidden-input" accept="image/*">
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
